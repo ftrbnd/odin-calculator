@@ -28,6 +28,8 @@ function handleClick(buttonText) {
     console.log(`num1 = ${num1}, operator = ${operator}, num2 = ${num2}`);
 
     if ('+-*÷'.includes(buttonText)) {
+        if (!num1 && !num2) return; // ignore if no numbers to compute
+
         display.textContent = buttonText;
         operator = buttonText;
         startSecondOperand = true;
