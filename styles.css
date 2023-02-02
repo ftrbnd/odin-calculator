@@ -15,6 +15,7 @@ body {
 header {
     font-size: 72px;
     text-align: center;
+    color: orange;
 }
 
 button.darken {
@@ -30,6 +31,7 @@ button.darken {
     font-family: 'Courier New', Courier, monospace;
     font-size: 48px;
     text-align: end;
+    color: gray;
 }
 
 .buttons {
