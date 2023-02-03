@@ -80,7 +80,7 @@ function handleClick(buttonText) {
             if (Number.NEGATIVE_INFINITY < num1 && num1 < Number.POSITIVE_INFINITY && num2.length > 0) {
                 console.log('Chaining operations...')
                 num1 = operate(num1, num2, operator);
-                display.textContent = num1.round();
+                display.textContent = parseFloat(num1).round().toLocaleString("en-US");;
                 num2 = '';
             } else {
                 console.log('Not chaining..')
@@ -101,7 +101,7 @@ function handleClick(buttonText) {
                 alert("don't divide by zero... ");
                 return resetCalculator();
             }
-            display.textContent = num1.round();
+            display.textContent = parseFloat(num1).round().toLocaleString("en-US");
 
             num2 = '', operator = '';
             decimalPressed = false;
@@ -110,32 +110,34 @@ function handleClick(buttonText) {
         case 'CLEAR':
             resetCalculator();
             break;
+        case '⌫':
+            // ???
+            break;
+        case '.':
+            if (decimalPressed && buttonText == '.') return;
+
+            decimalPressed = true;
+            // fall-through to allow numbers after decimal
         default: // numbers and decimal only
             if (equalsPressed) {
                 resetCalculator();
             }
 
-            if (decimalPressed && buttonText == '.') {
-                return;
-            }
-
-            if (buttonText == '.') {
-                decimalPressed = true;
-            }
- 
             display.style.color = 'white';
 
             if (!num1Submitted) {
                 num1 += buttonText;
-                display.textContent = num1;
+                display.textContent = parseFloat(num1).toLocaleString("en-US");
             } else {
                 num2 += buttonText;
-                display.textContent = num2;
+                display.textContent = parseFloat(num2).toLocaleString("en-US");
             }
 
             break;
     }
-    console.log(`num1 = ${num1}, op = ${operator}, num2 = ${num2}, num1Submitted = ${num1Submitted}, equalsPressed = ${equalsPressed}`);
+    console.log(`num1 = ${num1}, op = ${operator}, num2 = ${num2}, 
+        num1Submitted = ${num1Submitted}, equalsPressed = ${equalsPressed}, 
+        decimalPressed = ${decimalPressed}`);
 }
 
 function resetCalculator() {
