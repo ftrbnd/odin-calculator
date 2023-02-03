@@ -26,7 +26,7 @@ function attachButtonListeners() {
 
         button.addEventListener('mousedown', () => {
             if ((!num1 && '+-*÷'.includes(button.textContent)) || (button.textContent == '=' && !num2) || decimalPressed) return;
-            button.style.border = '2px solid white';
+            button.style.border = '5px solid white';
         })
 
         button.addEventListener('mouseup', () => {
@@ -37,13 +37,14 @@ function attachButtonListeners() {
                 }
             }
 
-            button.style.border = '2px solid white';
+            button.style.border = '5px solid white';
 
             switch (button.textContent) {
                 case '+':
                 case '-':
                 case '*':
                 case '÷':
+                case '.':
                     break;
                 default:
                     const buttons = document.querySelectorAll('button');
@@ -111,7 +112,24 @@ function handleClick(buttonText) {
             resetCalculator();
             break;
         case '⌫':
-            // ???
+            if (equalsPressed) return resetCalculator();
+
+            if (!num1Submitted) {
+                num1 = num1.slice(0, -1); 
+                display.textContent = num1;
+
+                if (num1 == '') {
+                    resetCalculator();
+                }
+            } else {
+                num2 = num2.slice(0, -1);
+                display.textContent = num2;
+
+                if (num2 == '') {
+                    display.textContent = operator;
+                }
+            }
+            
             break;
         case '.':
             if (decimalPressed && buttonText == '.') return;
@@ -135,12 +153,9 @@ function handleClick(buttonText) {
                 num2 += buttonText;
                 display.textContent = parseFloat(num2).toLocaleString("en-US");
             }
-
             break;
     }
-    console.log(`num1 = ${num1}, op = ${operator}, num2 = ${num2}, 
-        num1Submitted = ${num1Submitted}, equalsPressed = ${equalsPressed}, 
-        decimalPressed = ${decimalPressed}`);
+    console.log(`num1 = ${num1}, operator = ${operator}, num2 = ${num2}`);
 }
 
 function resetCalculator() {
@@ -150,6 +165,7 @@ function resetCalculator() {
     decimalPressed = false;
     display.style.color = 'gray';
     display.textContent = 'hello';
+
     console.log('Reset all variables.');
 }
 
