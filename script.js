@@ -1,8 +1,8 @@
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector('.display');
-let num1 = '', num2 = '';
+let num1 = '', operator = '', num2 = '';
 let num1Submitted = false, equalsPressed = false;
-let operator = '';
+let decimalPressed = false;
 
 loadPage();
 
@@ -25,13 +25,13 @@ function attachButtonListeners() {
         });
 
         button.addEventListener('mousedown', () => {
-            if ((!num1 && '+-*÷'.includes(button.textContent)) || button.textContent == '=' && !num2) return;
+            if ((!num1 && '+-*÷'.includes(button.textContent)) || (button.textContent == '=' && !num2) || decimalPressed) return;
             button.style.border = '2px solid white';
         })
 
         button.addEventListener('mouseup', () => {
             if ('+-*÷'.includes(button.textContent)) {
-                const buttons = document.querySelectorAll('button');
+                const buttons = document.querySelectorAll('button.operator');
                 for (const button of buttons) {
                     button.style.border = 'none';
                 }
@@ -62,6 +62,10 @@ function attachButtonListeners() {
     - Pressing on operators when !num1 and !num2
     - Rounding to avoid large numbers stretching screen
     - Setting text colors
+
+    TODO:
+    - Set text colors on results
+    - extra credit on Odin page
 */
 function handleClick(buttonText) {
     switch (buttonText) {
@@ -83,6 +87,7 @@ function handleClick(buttonText) {
                 display.textContent = buttonText;
             }
 
+            decimalPressed = false;
             num1Submitted = true;
             operator = buttonText;
 
@@ -99,16 +104,25 @@ function handleClick(buttonText) {
             display.textContent = num1.round();
 
             num2 = '', operator = '';
+            decimalPressed = false;
             equalsPressed = true;
             break;
         case 'CLEAR':
             resetCalculator();
             break;
-        default: // numbers only
+        default: // numbers and decimal only
             if (equalsPressed) {
                 resetCalculator();
             }
 
+            if (decimalPressed && buttonText == '.') {
+                return;
+            }
+
+            if (buttonText == '.') {
+                decimalPressed = true;
+            }
+ 
             display.style.color = 'white';
 
             if (!num1Submitted) {
@@ -128,6 +142,7 @@ function resetCalculator() {
     num1 = '', num2 = '';
     operator = '';
     num1Submitted = false, equalsPressed = false;
+    decimalPressed = false;
     display.style.color = 'gray';
     display.textContent = 'hello';
     console.log('Reset all variables.');
