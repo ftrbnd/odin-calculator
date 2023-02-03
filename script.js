@@ -102,6 +102,7 @@ function handleClick(buttonText) {
                 alert("don't divide by zero... ");
                 return resetCalculator();
             }
+            display.style.color = 'lightgreen';
             display.textContent = parseFloat(num1).round().toLocaleString("en-US");
 
             num2 = '', operator = '';
