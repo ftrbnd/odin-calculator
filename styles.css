@@ -9,7 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 96px;
+    gap: 48px;
 }
 
 header {

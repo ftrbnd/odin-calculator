@@ -123,6 +123,9 @@ function handleClick(buttonText) {
                 resetCalculator();
             }
 
+            if (num1 >= 999999999 && !num1Submitted) return;
+            if (num2 >= 999999999 && num1Submitted) return;
+
             display.style.color = 'white';
 
             if (!num1Submitted) {
