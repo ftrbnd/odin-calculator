@@ -206,4 +206,4 @@ function divide(x, y) {
 
 Number.prototype.round = function(places = 5) {
     return +(Math.round(this + "e+" + places)  + "e-" + places);
-  }
+}
