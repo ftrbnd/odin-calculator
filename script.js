@@ -8,6 +8,7 @@ loadPage();
 
 function loadPage() {
     attachButtonListeners();
+    attachKeyboardListener();
 }
 
 function attachButtonListeners() {
@@ -18,16 +19,16 @@ function attachButtonListeners() {
     
         button.addEventListener('mouseout', () => {
             button.classList.remove('darken');
-        })
+        });
         
         button.addEventListener('click', () => {
-            handleClick(button.textContent);
+            displayValue(button.textContent);
         });
 
         button.addEventListener('mousedown', () => {
             if ((!num1 && '+-*÷'.includes(button.textContent)) || (button.textContent == '=' && !num2) || decimalPressed) return;
             button.style.border = '5px solid white';
-        })
+        });
 
         button.addEventListener('mouseup', () => {
             if ('+-*÷'.includes(button.textContent)) {
@@ -53,23 +54,28 @@ function attachButtonListeners() {
                     }
                     break;
             }
-        })
+        });
     }
 }
 
-/*
-    SPECIAL CASES:
-    - Dividing by zero
-    - Pressing on operators when !num1 and !num2
-    - Rounding to avoid large numbers stretching screen
-    - Setting text colors
+function attachKeyboardListener() {
+    window.addEventListener('keydown', e => {
+        console.log(`Keyboard entered: ${e.key}`);
 
-    TODO:
-    - Set text colors on results
-    - extra credit on Odin page
-*/
-function handleClick(buttonText) {
-    switch (buttonText) {
+        if ("1234567890+-*.".includes(e.key)) {
+            displayValue(e.key);
+        } else if (e.key == '/') {
+            displayValue('÷');
+        } else if (e.key == '=' || e.key == 'Enter'){
+            displayValue('=');
+        } else if(e.key == 'Backspace') {
+            displayValue('⌫');
+        }
+    });
+}
+
+function displayValue(valueEntered) {
+    switch (valueEntered) {
         case '+':
         case '-':
         case '*':
@@ -85,12 +91,12 @@ function handleClick(buttonText) {
                 num2 = '';
             } else {
                 console.log('Not chaining..')
-                display.textContent = buttonText;
+                display.textContent = valueEntered;
             }
 
             decimalPressed = false;
             num1Submitted = true;
-            operator = buttonText;
+            operator = valueEntered;
 
             break;
         case '=':
@@ -133,7 +139,7 @@ function handleClick(buttonText) {
             
             break;
         case '.':
-            if (decimalPressed && buttonText == '.') return;
+            if (decimalPressed && valueEntered == '.') return;
 
             decimalPressed = true;
             // fall-through to allow numbers after decimal
@@ -148,10 +154,10 @@ function handleClick(buttonText) {
             display.style.color = 'white';
 
             if (!num1Submitted) {
-                num1 += buttonText;
+                num1 += valueEntered;
                 display.textContent = parseFloat(num1).toLocaleString("en-US");
             } else {
-                num2 += buttonText;
+                num2 += valueEntered;
                 display.textContent = parseFloat(num2).toLocaleString("en-US");
             }
             break;
