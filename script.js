@@ -153,13 +153,17 @@ function displayValue(valueEntered) {
 
             display.style.color = 'white';
 
+            let value;
             if (!num1Submitted) {
                 num1 += valueEntered;
-                display.textContent = parseFloat(num1).toLocaleString("en-US");
+                value = parseFloat(num1).toLocaleString("en-US");
+                if (value == 'NaN') value = num1.toLocaleString("en-US");
             } else {
                 num2 += valueEntered;
-                display.textContent = parseFloat(num2).toLocaleString("en-US");
+                value = parseFloat(num2).toLocaleString("en-US");
+                if (value == 'NaN') value = num2.toLocaleString("en-US");
             }
+            display.textContent = value;
             break;
     }
     console.log(`num1 = ${num1}, operator = ${operator}, num2 = ${num2}`);
